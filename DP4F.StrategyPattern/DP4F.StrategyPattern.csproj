@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DP4F.Common\DP4F.Common.csproj" />
+    <ProjectReference Include="..\DP4F.Product\DP4F.Product.csproj" />
+  </ItemGroup>
+
+</Project>
