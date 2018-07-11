@@ -1,9 +1,9 @@
 using DP4F.Common.Results;
 using DP4F.Product;
-using DP4F.StrategyPattern;
 using DP4F.StrategyPattern.ObjectValues;
 using DP4F.StrategyPattern.Strategy;
 using DP4F.StrategyPattern.Strategy.Transport;
+using Moq;
 using Xunit;
 
 namespace DP4F.StrategyPatternTests
@@ -14,14 +14,11 @@ namespace DP4F.StrategyPatternTests
         [Fact]
         public void MustReturnTaxFromCorreios()
         {
-            Item item = new Item() {
-                Id = 1,
-                Name = "Produto A",
-                Price = 15.00,
-                Quantity = 5
-            };
+            Mock<IItem> mock = new Mock<IItem>();
+            IItem item = mock.Object;
 
             ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.CORREIOS);
+
             ItemResult itemResult = availableStrategy.Calculate(item);
             Assert.Equal(0.80, itemResult.TransportTax);
         }
@@ -29,13 +26,8 @@ namespace DP4F.StrategyPatternTests
         [Fact]
         public void MustReturnTaxFromJadLog()
         {
-            Item item = new Item()
-            {
-                Id = 1,
-                Name = "Produto A",
-                Price = 15.00,
-                Quantity = 5
-            };
+            Mock<IItem> mock = new Mock<IItem>();
+            IItem item = mock.Object;
 
             ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.JADLOG);
             ItemResult itemResult = availableStrategy.Calculate(item);
@@ -45,13 +37,8 @@ namespace DP4F.StrategyPatternTests
         [Fact]
         public void MustReturnTaxFromTotalExpress()
         {
-            Item item = new Item()
-            {
-                Id = 1,
-                Name = "Produto A",
-                Price = 15.00,
-                Quantity = 5
-            };
+            Mock<IItem> mock = new Mock<IItem>();
+            IItem item = mock.Object;
 
             ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.TOTALEXPRESS);
             ItemResult itemResult = availableStrategy.Calculate(item);
@@ -61,18 +48,110 @@ namespace DP4F.StrategyPatternTests
         [Fact]
         public void MustReturnTaxFromFedex()
         {
-            Item item = new Item()
-            {
-                Id = 1,
-                Name = "Produto A",
-                Price = 15.00,
-                Quantity = 5
-            };
+            Mock<IItem> mock = new Mock<IItem>();
+            IItem item = mock.Object;
 
             ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.FEDEX);
             ItemResult itemResult = availableStrategy.Calculate(item);
 
             Assert.Equal(0.65, itemResult.TransportTax);
+        }
+
+        [Fact]
+        public void ReturnMustBeZeroFromCorreios()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.CORREIOS);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total == 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeZeroFromFedex()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.FEDEX);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total == 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeZeroFromJadLog()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.JADLOG);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total == 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeZeroFromTotalExpress()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.TOTALEXPRESS);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total == 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeGreaterThanZeroFromCorreios()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+
+            mock.SetupProperty(item => item.Quantity, 5);
+            mock.SetupProperty(item => item.Price, 125.5);
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.CORREIOS);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total > 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeGreaterThanZeroFromFedex()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+            mock.SetupProperty(item => item.Quantity, 5);
+            mock.SetupProperty(item => item.Price, 125.5);
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.FEDEX);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total > 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeGreaterThanZeroFromJadLog()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+            mock.SetupProperty(item => item.Quantity, 5);
+            mock.SetupProperty(item => item.Price, 125.5);
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.JADLOG);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total > 0);
+        }
+
+        [Fact]
+        public void ReturnMustBeGreaterThanZeroFromTotalExpress()
+        {
+            Mock<IItem> mock = new Mock<IItem>();
+            mock.SetupProperty(item => item.Quantity, 5);
+            mock.SetupProperty(item => item.Price, 125.5);
+
+            ICalculateStrategy availableStrategy = TransportFactory.GetAvailableStrategy(AvailableTransports.TOTALEXPRESS);
+            ItemResult itemResult = availableStrategy.Calculate(mock.Object);
+
+            Assert.True(itemResult.Total > 0);
         }
 
     }

@@ -5,6 +5,6 @@ namespace DP4F.StrategyPattern.Strategy
 {
     public interface ICalculateStrategy
     {
-        ItemResult Calculate(Item item);
+        ItemResult Calculate(IItem item);
     }
 }

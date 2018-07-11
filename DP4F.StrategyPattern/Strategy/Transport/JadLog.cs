@@ -8,7 +8,7 @@ namespace DP4F.StrategyPattern.Strategy.Transport
     {
         private readonly double transportTax = 0.45;
 
-        ItemResult ICalculateStrategy.Calculate(Item item)
+        ItemResult ICalculateStrategy.Calculate(IItem item)
         {
             return new ItemResult()
             {
@@ -24,7 +24,11 @@ namespace DP4F.StrategyPattern.Strategy.Transport
 
         private double CalculateItem(int quantity, double price)
         {
-            return ((price * quantity) + transportTax);
+            if (quantity > 0 && price > 0)
+            {
+                return ((price * quantity) + transportTax);
+            }
+            return 0;
         }
     }
 }
