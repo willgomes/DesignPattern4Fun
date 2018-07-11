@@ -1,4 +1,4 @@
-﻿namespace DP4F.StrategyPattern.ObjectValues
+﻿namespace DP4F.StrategyPattern.ValueObject
 {
     public static class AvailableTransports
     {

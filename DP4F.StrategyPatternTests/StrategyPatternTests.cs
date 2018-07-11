@@ -1,6 +1,6 @@
 using DP4F.Common.Results;
 using DP4F.Product;
-using DP4F.StrategyPattern.ObjectValues;
+using DP4F.StrategyPattern.ValueObject;
 using DP4F.StrategyPattern.Strategy;
 using DP4F.StrategyPattern.Strategy.Transport;
 using Moq;
